@@ -1,1 +1,1 @@
-from .main_server import MAIN_SERVER
+from .main_server import MAIN_SERVER, SERVER_INIT

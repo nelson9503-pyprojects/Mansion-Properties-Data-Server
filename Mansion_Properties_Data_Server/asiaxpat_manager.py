@@ -19,8 +19,6 @@ class AsiaXPatManger:
             self.tb.addCol("room", "INT")
             self.tb.addCol("bathroom", "INT")
             self.tb.addCol("floor", "CHAR(10)")
-            self.tb.addCol("build_area", "INT")
-            self.tb.addCol("real_area", "INT")
             self.tb.addCol("price", "INT")
             self.tb.addCol("contact_type", "CHAR(20)")
             self.tb.addCol("contact_person", "CHAR(200)")
@@ -32,29 +30,28 @@ class AsiaXPatManger:
     def update(self):
         page = 1
         retry = 0
-        ids = []
+        ids = {}
         while True:
+            print("asiaxpat manager: scanning id... page: {}".format(page))
             if retry == 2:
                 break
             data = asiaxpatapi.extract_cover(page)
             if len(data) == 0:
                 retry += 1
                 continue
-            for id in data:
-                ids.append(id)
+            ids.update(data)
             page += 1
             retry = 0
         timer = time_estimate.TimeEstimate()
         n = 0
         for id in ids:
             n += 1
-            # update the time estimate per 100 updates
-            if n % 100 == 0:
-                hour, minute, second = timer.estimate(n, len(ids))
-                print("asiaxpat manage: updating... {}\t{:02d}:{:02d}:{:02d}".format(
-                    id, hour, minute, second))
-            # commit db per 1000 updates
-            if n / 1000 > 1 and n % 1000 == 0:
+            # update the time estimate per 10 updates
+            hour, minute, second = timer.estimate(n, len(ids))
+            print("asiaxpat manager: updating... {}/{}\testimate time: {:02d}:{:02d}:{:02d}".format(
+                n, len(ids), hour, minute, second))
+            # commit db per 10 updates
+            if n / 10 > 1 and n % 10 == 0:
                 self.db.commit()
             data = asiaxpatapi.extract_content(ids[id]["url"])
             result = {}
@@ -91,7 +88,7 @@ class AsiaXPatManger:
             except KeyError:
                 pass
             try:
-                result["price"] = int(data["price"])
+                result["price"] = int(float(data["price"]))
             except KeyError:
                 pass
             try:

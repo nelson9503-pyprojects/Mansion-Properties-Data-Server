@@ -37,6 +37,7 @@ class Hse730Manager:
         retry = 0
         ids = []
         while True:
+            print("hse730 manage: scanning id... page: {}".format(page))
             if retry == 2:
                 break
             data = hse730api.extract_cover("buy", page)

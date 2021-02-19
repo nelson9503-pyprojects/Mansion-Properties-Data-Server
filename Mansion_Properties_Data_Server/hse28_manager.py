@@ -55,8 +55,8 @@ class Hse28Manager:
             if n % 100 == 0:
                 hour, minute, second = timer.estimate(n, end_id-start_id+1)
                 print("hse28 manage: updating...(mode 1: expanding) {}\t{:02d}:{:02d}:{:02d}".format(id, hour, minute, second))
-            # commit db per 1000 updates
-            if n / 1000 > 1 and n % 1000 == 0:
+            # commit db per 100 updates
+            if n / 100 > 1 and n % 100 == 0:
                 self.db.commit()
             # extract data from 28hse
             data = hse28api.extract_property(id)
@@ -65,6 +65,7 @@ class Hse28Manager:
             if data == False:
                 result["state"] = False
                 self.tb.update({id:result})
+                continue
             # else, update it normally
             try:
                 result["ad_type"] = data["ad_type"]

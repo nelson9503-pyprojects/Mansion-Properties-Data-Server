@@ -18,6 +18,7 @@ class MAIN_SERVER:
         while True:
 
             now = datetime.now()
+            print("time check: {}".format(now))
 
             if now.hour == 0 and now.weekday() in [0, 1, 2, 3, 4, 5]:
                 self.hse28.update_mode1()
@@ -42,3 +43,22 @@ class MAIN_SERVER:
                 self.midland.update_mode2()
             
             time.sleep(1)
+
+class SERVER_INIT:
+
+    def __init__(self, db_path: str):
+        print("initializing... please wait.")
+        self.hse28 = Hse28Manager(db_path)
+        self.hse730 = Hse730Manager(db_path)
+        self.asiaxpat = AsiaXPatManger(db_path)
+        self.midland = MidlandManager(db_path)
+    
+    def main_flow(self):
+        self.hse28.update_mode1()
+        self.midland.update_mode1()
+        self.hse730.update_buy()
+        self.hse730.update_rent()
+        self.asiaxpat.update()
+        self.hse28.update_mode2()
+        self.hse28.update_mode3()
+        self.midland.update_mode2()
