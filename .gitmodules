@@ -1,0 +1,18 @@
+[submodule "Mansion_Properties_Data_Server/mysqlite"]
+	path = Mansion_Properties_Data_Server/mysqlite
+	url = https://github.com/nelson9503-pymodules/mysqlite.git
+[submodule "Mansion_Properties_Data_Server/hse28api"]
+	path = Mansion_Properties_Data_Server/hse28api
+	url = https://github.com/nelson9503-pymodules/hse28api.git
+[submodule "Mansion_Properties_Data_Server/time_estimate"]
+	path = Mansion_Properties_Data_Server/time_estimate
+	url = https://github.com/nelson9503-pymodules/time_estimate.git
+[submodule "Mansion_Properties_Data_Server/hse730api"]
+	path = Mansion_Properties_Data_Server/hse730api
+	url = https://github.com/nelson9503-pymodules/hse730api.git
+[submodule "Mansion_Properties_Data_Server/asiaxpatapi"]
+	path = Mansion_Properties_Data_Server/asiaxpatapi
+	url = https://github.com/nelson9503-pymodules/asiaxpatapi.git
+[submodule "Mansion_Properties_Data_Server/midlandapi"]
+	path = Mansion_Properties_Data_Server/midlandapi
+	url = https://github.com/nelson9503-pymodules/midlandapi.git
