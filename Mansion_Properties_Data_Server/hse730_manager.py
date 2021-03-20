@@ -10,25 +10,25 @@ class Hse730Manager:
 
     def initialize_database(self):
         self.db = mysqlite.DB(self.db_path)
-        if not "hse730" in self.db.listTB():
-            self.tb = self.db.createTB("hse730", "id", "INT")
-            self.tb.addCol("ad_type", "CHAR(10)")
-            self.tb.addCol("region", "CHAR(20)")
-            self.tb.addCol("district", "CHAR(20)")
-            self.tb.addCol("building", "CHAR(50)")
-            self.tb.addCol("phase", "CHAR(50)")
-            self.tb.addCol("block", "CHAR(50)")
-            self.tb.addCol("flat", "CHAR(50)")
-            self.tb.addCol("floor", "CHAR(10)")
-            self.tb.addCol("address", "CHAR(500)")
-            self.tb.addCol("room", "INT")
-            self.tb.addCol("build_area", "INT")
-            self.tb.addCol("real_area", "INT")
-            self.tb.addCol("price", "INT")
-            self.tb.addCol("contact_type", "CHAR(20)")
-            self.tb.addCol("contact_person", "CHAR(200)")
-            self.tb.addCol("contact_phone", "CHAR(50)")
-            self.tb.addCol("last_update", "CHAR(10)")
+        if not "hse730" in self.db.list_tb():
+            self.tb = self.db.add_tb("hse730", "id", "INT")
+            self.tb.add_col("ad_type", "CHAR(10)")
+            self.tb.add_col("region", "CHAR(20)")
+            self.tb.add_col("district", "CHAR(20)")
+            self.tb.add_col("building", "CHAR(50)")
+            self.tb.add_col("phase", "CHAR(50)")
+            self.tb.add_col("block", "CHAR(50)")
+            self.tb.add_col("flat", "CHAR(50)")
+            self.tb.add_col("floor", "CHAR(10)")
+            self.tb.add_col("address", "CHAR(500)")
+            self.tb.add_col("room", "INT")
+            self.tb.add_col("build_area", "INT")
+            self.tb.add_col("real_area", "INT")
+            self.tb.add_col("price", "INT")
+            self.tb.add_col("contact_type", "CHAR(20)")
+            self.tb.add_col("contact_person", "CHAR(200)")
+            self.tb.add_col("contact_phone", "CHAR(50)")
+            self.tb.add_col("last_update", "CHAR(10)")
         else:
             self.tb = self.db.TB("hse730")
     
@@ -110,7 +110,7 @@ class Hse730Manager:
             except KeyError:
                 pass
             try:
-                result["contact_type"] = data["ad_type"]
+                result["contact_type"] = data["contact_type"]
             except KeyError:
                 pass
             try:

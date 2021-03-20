@@ -131,3 +131,6 @@ dmypy.json
 # sqlite
 *.db
 *.db-journal
+*.txt
+/88
+/Data Sample

@@ -15,26 +15,26 @@ class MidlandManager:
 
     def initialize_database(self):
         self.db = mysqlite.DB(self.db_path)
-        if not "building" in self.db.listTB():
-            self.building_tb = self.db.createTB("building", "id", "CHAR(50)")
-            self.building_tb.addCol("name", "CHAR(100)")
-            self.building_tb.addCol("phase_id", "CHAR(50)")
-            self.building_tb.addCol("phase_name", "CHAR(100)")
-            self.building_tb.addCol("estate_id", "CHAR(50)")
-            self.building_tb.addCol("estate_name", "CHAR(100)")
-            self.building_tb.addCol("region", "CHAR(20)")
-            self.building_tb.addCol("subregion", "CHAR(20)")
-            self.building_tb.addCol("district", "CHAR(20)")
+        if not "building" in self.db.list_tb():
+            self.building_tb = self.db.add_tb("building", "id", "CHAR(50)")
+            self.building_tb.add_col("name", "CHAR(100)")
+            self.building_tb.add_col("phase_id", "CHAR(50)")
+            self.building_tb.add_col("phase_name", "CHAR(100)")
+            self.building_tb.add_col("estate_id", "CHAR(50)")
+            self.building_tb.add_col("estate_name", "CHAR(100)")
+            self.building_tb.add_col("region", "CHAR(20)")
+            self.building_tb.add_col("subregion", "CHAR(20)")
+            self.building_tb.add_col("district", "CHAR(20)")
         else:
             self.building_tb = self.db.TB("building")
 
     def get_unit_tb(self, building_id: str):
-        if not building_id in self.db.listTB():
-            self.unit_tb = self.db.createTB(building_id, "id", "CHAR(50)")
-            self.unit_tb.addCol("floor", "CHAR(10)")
-            self.unit_tb.addCol("flat", "CHAR(10)")
-            self.unit_tb.addCol("build_area", "INT")
-            self.unit_tb.addCol("real_area", "INT")
+        if not building_id in self.db.list_tb():
+            self.unit_tb = self.db.add_tb(building_id, "id", "CHAR(50)")
+            self.unit_tb.add_col("floor", "CHAR(10)")
+            self.unit_tb.add_col("flat", "CHAR(10)")
+            self.unit_tb.add_col("build_area", "INT")
+            self.unit_tb.add_col("real_area", "INT")
         else:
             self.unit_tb = self.db.TB(building_id)
 
@@ -53,7 +53,10 @@ class MidlandManager:
         n = 0
         for estate in estates:
             n += 1
-            if estates[estate]["id"] in exists_estate:
+            try:
+                if estates[estate]["id"] in exists_estate:
+                    continue
+            except TypeError:
                 continue
             hour, minute, second = timer.estimate(n, len(estates))
             print("midland manage: updating... {}\t{:02d}:{:02d}:{:02d}".format(

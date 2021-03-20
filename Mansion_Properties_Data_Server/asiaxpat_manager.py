@@ -11,19 +11,19 @@ class AsiaXPatManger:
 
     def initialize_database(self):
         self.db = mysqlite.DB(self.db_path)
-        if not "asiaxpat" in self.db.listTB():
-            self.tb = self.db.createTB("asiaxpat", "id", "INT")
-            self.tb.addCol("ad_type", "CHAR(10)")
-            self.tb.addCol("building", "CHAR(50)")
-            self.tb.addCol("address", "CHAR(500)")
-            self.tb.addCol("room", "INT")
-            self.tb.addCol("bathroom", "INT")
-            self.tb.addCol("floor", "CHAR(10)")
-            self.tb.addCol("price", "INT")
-            self.tb.addCol("contact_type", "CHAR(20)")
-            self.tb.addCol("contact_person", "CHAR(200)")
-            self.tb.addCol("contact_phone", "CHAR(50)")
-            self.tb.addCol("last_update", "CHAR(10)")
+        if not "asiaxpat" in self.db.list_tb():
+            self.tb = self.db.add_tb("asiaxpat", "id", "INT")
+            self.tb.add_col("ad_type", "CHAR(10)")
+            self.tb.add_col("building", "CHAR(50)")
+            self.tb.add_col("address", "CHAR(500)")
+            self.tb.add_col("room", "INT")
+            self.tb.add_col("bathroom", "INT")
+            self.tb.add_col("floor", "CHAR(10)")
+            self.tb.add_col("price", "INT")
+            self.tb.add_col("contact_type", "CHAR(20)")
+            self.tb.add_col("contact_person", "CHAR(200)")
+            self.tb.add_col("contact_phone", "CHAR(50)")
+            self.tb.add_col("last_update", "CHAR(10)")
         else:
             self.tb = self.db.TB("asiaxpat")
 
@@ -107,5 +107,8 @@ class AsiaXPatManger:
                 result["last_update"] = data["post_date"]
             except KeyError:
                 pass
-            self.tb.update({id: result})
+            try:
+                self.tb.update({id: result})
+            except:
+                pass
         self.db.commit()

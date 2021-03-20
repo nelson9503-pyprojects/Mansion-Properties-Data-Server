@@ -12,25 +12,25 @@ class Hse28Manager:
 
     def initialize_database(self):
         self.db = mysqlite.DB(self.db_path)
-        if not "hse28" in self.db.listTB():
-            self.tb = self.db.createTB("hse28", "id", "INT")
-            self.tb.addCol("ad_type", "CHAR(10)")
-            self.tb.addCol("property_type", "CHAR(20)")
-            self.tb.addCol("region", "CHAR(20)")
-            self.tb.addCol("district", "CHAR(20)")
-            self.tb.addCol("building", "CHAR(50)")
-            self.tb.addCol("address", "CHAR(500)")
-            self.tb.addCol("room", "INT")
-            self.tb.addCol("living", "INT")
-            self.tb.addCol("bathroom", "INT")
-            self.tb.addCol("build_area", "INT")
-            self.tb.addCol("real_area", "INT")
-            self.tb.addCol("price", "INT")
-            self.tb.addCol("contact_type", "CHAR(20)")
-            self.tb.addCol("contact_person", "CHAR(200)")
-            self.tb.addCol("contact_phone", "CHAR(50)")
-            self.tb.addCol("last_update", "CHAR(10)")
-            self.tb.addCol("state", "BOOLEAN")
+        if not "hse28" in self.db.list_tb():
+            self.tb = self.db.add_tb("hse28", "id", "INT")
+            self.tb.add_col("ad_type", "CHAR(10)")
+            self.tb.add_col("property_type", "CHAR(20)")
+            self.tb.add_col("region", "CHAR(20)")
+            self.tb.add_col("district", "CHAR(20)")
+            self.tb.add_col("building", "CHAR(50)")
+            self.tb.add_col("address", "CHAR(500)")
+            self.tb.add_col("room", "INT")
+            self.tb.add_col("living", "INT")
+            self.tb.add_col("bathroom", "INT")
+            self.tb.add_col("build_area", "INT")
+            self.tb.add_col("real_area", "INT")
+            self.tb.add_col("price", "INT")
+            self.tb.add_col("contact_type", "CHAR(20)")
+            self.tb.add_col("contact_person", "CHAR(200)")
+            self.tb.add_col("contact_phone", "CHAR(50)")
+            self.tb.add_col("last_update", "CHAR(10)")
+            self.tb.add_col("state", "BOOLEAN")
         else:
             self.tb = self.db.TB("hse28")
 
@@ -54,7 +54,7 @@ class Hse28Manager:
             # update the time estimate per 100 updates
             if n % 100 == 0:
                 hour, minute, second = timer.estimate(n, end_id-start_id+1)
-                print("hse28 manage: updating...(mode 1: expanding) {}\t{:02d}:{:02d}:{:02d}".format(id, hour, minute, second))
+                print("hse28 manage: updating...(mode 1: expanding) {}/{}\t{:02d}:{:02d}:{:02d}".format(id, end_id, hour, minute, second))
             # commit db per 100 updates
             if n / 100 > 1 and n % 100 == 0:
                 self.db.commit()
@@ -112,7 +112,7 @@ class Hse28Manager:
             except KeyError:
                 pass
             try:
-                result["price"] = int(data["price"])
+                result["price"] = int(float(data["price"]))
             except KeyError:
                 pass
             try:
@@ -143,8 +143,11 @@ class Hse28Manager:
         today = datetime.now()
         update_list = []
         for id in data:
-            date = datetime.strptime(data[id]["last_update"], "Y-m-d")
-            diff = today - date
+            try:
+                date = datetime.strptime(data[id]["last_update"], "Y-m-d")
+                diff = today - date
+            except:
+                continue
             if diff.days < 31:
                 update_list.append(id)
         timer = time_estimate.TimeEstimate()
@@ -165,6 +168,7 @@ class Hse28Manager:
             if data == False:
                 result["state"] = False
                 self.tb.update({id:result})
+                continue
             # else, update it normally
             try:
                 result["ad_type"] = data["ad_type"]
@@ -211,7 +215,7 @@ class Hse28Manager:
             except KeyError:
                 pass
             try:
-                result["price"] = int(data["price"])
+                result["price"] = int(float(data["price"]))
             except KeyError:
                 pass
             try:
@@ -260,6 +264,7 @@ class Hse28Manager:
             if data == False:
                 result["state"] = False
                 self.tb.update({id:result})
+                continue
             # else, update it normally
             try:
                 result["ad_type"] = data["ad_type"]
@@ -306,7 +311,7 @@ class Hse28Manager:
             except KeyError:
                 pass
             try:
-                result["price"] = int(data["price"])
+                result["price"] = int(float(data["price"]))
             except KeyError:
                 pass
             try:
